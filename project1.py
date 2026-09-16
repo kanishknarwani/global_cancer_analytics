@@ -13,15 +13,12 @@ warnings.filterwarnings("ignore")
 
 data = pd.read_csv(r"D:\python\global_cancer_patients_2015_2024 (1).csv")
 
-#DESCRIPTIVE ANALYSIS
+# DESCRIPTIVE ANALYSIS
 
-
-#plotting fo age coloumn
-
+# plotting fo age coloumn
 print(data["Age"].describe())
 
 plt.figure(figsize=(10,4))
-
 plt.subplot(1,2,1)
 sns.kdeplot(data["Age"], fill=True, color="lightgreen")
 plt.title("KDE plot for Age")
@@ -31,20 +28,15 @@ sns.histplot(data["Age"], bins=30, kde=False, color="cyan")
 plt.title("Histogram plot for Age")
 
 plt.tight_layout()
-plt.show()
+plt.show() 
 
-#Figure_1
+'''
+Figure_1 INFERENCE - This represents a broad representation of both young and elderly 
+patients in the data set, which suggests age based comparative analysis
+'''
 
-#INFERENCE
-
-
-#This represents a broad representation of both young and elderly 
-#patients in the data set, which suggests age based comparative analysis
-
-#plotting fo gender coloumn
-
+# plotting fo gender coloumn
 print(data["Gender"].value_counts())
-
 
 sns.barplot(
     x=data["Gender"].value_counts().index,
@@ -58,19 +50,15 @@ for i, v in enumerate(data["Gender"].value_counts()):
 plt.title("Gender count")
 plt.xlabel("Gender")
 plt.ylabel("Count")
-plt.show()
+plt.show() 
 
-#Figure_2 Updated
-#INFERENCE
+'''
+Figure_2 INFERENCE - This dataset contains three gender catgories(male, female and others), with the most common being male(16976).
+Gender distribution is sufficient for evaluating gender specific survival trends and severity outcomes
+'''
 
-#This dataset contains three gender catgories(male, female and others), with the most common being male(16976).
-#Gender distribution is sufficient for evaluating gender specific survival trends and severity outcomes
-
-
-#Countries coloumn
-
+# Countries coloumn
 country_counts = data["Country_Region"].value_counts()
-
 print(country_counts)
 
 plt.figure(figsize=(5,5))
@@ -82,17 +70,14 @@ plt.pie(
 plt.title("Country/Region Distribution")
 plt.show()
 
-#Figure_3
-# INFERENCE
-
-# Patients come from 10 different countries/Regions, with Australia being the most represented (5092 patients). Number of 
-# data points from each country is almost same. This dicersity enables cross-country comparison and treatment economic.
-
-
+'''
+Figure_3 INFERENCE - Patients come from 10 different countries/Regions, with Australia being the most represented (5092 patients). 
+Number of data points from each country is almost same. This dicersity enables cross-country comparison and treatment economic.
+'''
 
 # For Cancer type
-
 print(data["Cancer_Type"].value_counts())
+
 sns.barplot(
 		x=data["Cancer_Type"].value_counts().index,
 		y=data["Cancer_Type"].value_counts().values
@@ -105,17 +90,14 @@ plt.xlabel("Cancer type")
 plt.ylabel("Count")
 plt.show()
 
-#Figure_4
+'''
+Figure_4 INFERENCE - We have in total 8 types of cancer, with each cancer having aprrox. same no. of data points under the label, 
+most common cancers are colon cancer followed by prostate cancer.
+'''
 
-#INFERENCE
-#We have in total 8 types of cancer, with each cancer having aprrox. same no. of data points under the label, 
-#most common cancers are colon cancer followed by prostate cancer.
-
-
-
-#For cancer stage
-
+# For cancer stage
 print(data["Cancer_Stage"].value_counts())
+
 sns.barplot(
 		x=data["Cancer_Stage"].value_counts().index,
 		y=data["Cancer_Stage"].value_counts().values
@@ -128,21 +110,15 @@ plt.xlabel("Cancer_Stage")
 plt.ylabel("Count")
 plt.show()
 
-#Figure_5
+'''
+# Figure_5 INFERENCE - Cancer stage have five stages with most values ranging from 0 to 4, with stage 2 the most common one, and 
+each stage have same number of data points under it's label. 
+'''
 
-#INFERENCE
-
-#Cancer stage have five stages with most values ranging from 0 to 4, with stage 2 the most common one, and 
-#each stage have same number of data points under it's label. 
-
-
-
-#For Treatment cost(in USD)
-
+# For Treatment cost(in USD)
 print(data["Treatment_Cost_USD"].describe())
 
 plt.figure(figsize=(10,4))
-
 plt.subplot(1,2,1)
 sns.kdeplot(data["Treatment_Cost_USD"], fill=True, color="lightgreen")
 plt.title("KDE plot for Treatment_Cost_USD")
@@ -155,29 +131,24 @@ plt.tight_layout()
 plt.show()
 
 print(data["Treatment_Cost_USD"].describe())
-#Figure 6
 
-#INFERENCE
+'''
+Figure_6 INFERENCE - Treatment cost have no skewness ans there are almost same no. of data points under each bin as observed by histogram.
+'''
 
-#Treatment cost have no skewness ans there are almost same no. of data points 
-#under each bin as observed by histogram.
-
-
-
-#Analyzing the risk factors
+# Analyzing the risk factors
 print(data.columns)
 columns_of_interest = ['Genetic_Risk', 'Air_Pollution', 'Alcohol_Use', 'Smoking', 'Obesity_Level']
 
 summary = print(data[columns_of_interest].agg(["mean", "std", "max", "min"]))
 summary
 
-#INFERENCE
-
-#These variables have nearly identical means and std deviation, indicating they were likely designed on the same 
-#standardized scale. They are essential in studying interaction effects (eg: genetic risks * smoking) on survival
-
+'''
+INFERENCE - These variables have nearly identical means and std deviation, indicating they were likely designed on the same 
+standardized scale. They are essential in studying interaction effects (eg: genetic risks * smoking) on survival
+'''
  
-#Determine the relationship between risk factors and cancer sensitivity
+# Determine the relationship between risk factors and cancer sensitivity
 
 Risk_Factors = ['Genetic_Risk', 'Air_Pollution', 'Alcohol_Use', 'Smoking', 'Obesity_Level']
 Titles = ['Genetic Risk', 'Air Pollution', 'Alcohol Use', 'Smoking', 'Obesity Level']
@@ -201,20 +172,17 @@ for i , (factor, title, color) in enumerate(zip(Risk_Factors, Titles, colors), 1
 plt.tight_layout()
 plt.show()
 
-#Figure_7
+'''
+Figure_7 INFERENCE - To understand the contribution of various risk factors to cancer severity, line plots were generated for five primary
+variables: Genetic risk, Air Pollution, Alcohol Use, Smoking, Obesity Level plotted against the target severity score.
 
-#INFERENCE
-#To understand the contribution of various risk factors to cancer severity, line plots were generated for five primary variables: Genetic risk,
-#Air Pollution, Alcohol Use, Smoking, Obesity Level plotted against the target severity score.
+Genetic risk vs Target severity score: R^2 =  0.23; A weak linear relationship. only 23% of variability in Target_Severity_Score is 
+explained by Genetic risk. This suggests that other factors likely play a larger role in influencing the severity score.
 
-#Genetic risk vs Target severity score:
-
-#R^2 =  0.23; A weak linear relationship. only 23% of variability in Target_Severity_Score is explained by Genetic risk. This suggests that other factors
-#likely play a larger role in influencing the severity score.
-
-#Slope = 0.20; A positive slope indicates that as Genetic Risk increases the Target_Severity_Score also tends to increase. For each unit increase in Genetic risk,
-#Target_Severity_Score increases by 0.20 units. However the R^2 is relatively low, this trend is not very consistent with across the data
-
+Slope = 0.20; A positive slope indicates that as Genetic Risk increases the Target_Severity_Score also tends to increase. For each unit 
+increase in Genetic risk, Target_Severity_Score increases by 0.20 units. However the R^2 is relatively low, this trend is not very 
+consistent with across the data
+'''
 
 
 #A the Proportion of early-stage diagnoses by cancer type
